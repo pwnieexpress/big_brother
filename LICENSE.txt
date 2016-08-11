@@ -1,0 +1,45 @@
+    ____                 _      ______
+   / __ \_      ______  (_)__  / ____/  ______  ________  __________
+  / /_/ / | /| / / __ \/ / _ \/ __/ | |/_/ __ \/ ___/ _ \/ ___/ ___/
+ / ____/| |/ |/ / / / / /  __/ /____>  </ /_/ / /  /  __(__  |__  )
+/_/     |__/|__/_/ /_/_/\___/_____/_/|_/ .___/_/   \___/____/____/
+                                      /_/
+
+Copyright (c) 2010-2016, Pwnie Express (https://www.pwnieexpress.com/) All
+rights reserved.
+
+Use of this software signifies your agreement to the Pwnie Express / Rapid
+Focus Security, Inc. End User License Agreement (EULA). You may find a copy
+of the EULA at the following address: https://www.pwnieexpress.com/pdfs/RFSEULA.pdf
+
+As with any software application, any downloads/transfers of this software
+are subject to export controls under the U.S. Commerce Department's Export
+Administration Regulations (EAR). By using this software you certify your
+complete understanding of and compliance with these regulations.
+
+Not withstanding the above, redistribution and use in source and binary
+forms, with or without modification, are permitted provided that the
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+
+3. Neither the name of Pwnie Express nor the names of its contributors may be
+used to endorse or promote products derived from this software without
+specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
