@@ -89,7 +89,7 @@ class BigBrother
   end
 
   def instance_name
-    @instance_name ||= ENV['HOSTNAME'] || "#{Socket.gethostname}"
+    @instance_name ||= ENV['HOSTNAME'].blank? ? "#{Socket.gethostname}" : ENV['HOSTNAME']
   end
 
   def last_polled_at
