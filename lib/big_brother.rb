@@ -29,6 +29,13 @@ class BigBrother
     @stopped = false
     @last_polled = nil
     @last_reported_metrics = nil
+    @polling_interval_in_seconds = 5*60
+    if ENV['BIG_BROTHER_WATCH_INTERVAL']
+      custom_polling_interval = ENV['BIG_BROTHER_WATCH_INTERVAL'].to_i rescue 5*60
+      if custom_polling_interval >= 1
+        @polling_interval_in_seconds = custom_polling_interval
+      end
+    end
     @metric_name = ENV['PULSE_APPLICATION_MONITOR_METRIC'] || PULSE_APPLICATION_MONITOR_METRIC_NAME
   end
 
@@ -37,15 +44,15 @@ class BigBrother
       remote_repo = `git remote -v | head -n 1`.strip
       m = /.*\/(.*)\.git.*/.match(remote_repo)
       m[1].blank? ? 'unknown' : m[1]
-    end
+    end rescue 'unknown'
   end
 
   def last_commit
-    @last_commit ||= `git rev-parse HEAD`.strip
+    @last_commit ||= `git rev-parse HEAD`.strip rescue 'unknown'
   end
 
   def last_commit_time
-    @last_commit_time ||= `git log -1 --format=format:%ai`.strip
+    @last_commit_time ||= `git log -1 --format=format:%ai`.strip rescue 'unknown'
   end
 
   def git_branch
@@ -57,14 +64,14 @@ class BigBrother
       else
         last_ref.last.gsub("refs/heads/", "")
       end
-    end
+    end rescue 'unknown'
   end
 
   def git_tag
     @git_tag ||= begin
       git_tags = `git tag --points-at HEAD`.strip
       git_tags.blank? ? 'none' : git_tags.split("\n").last
-    end
+    end rescue 'unknown'
   end
 
   def tags
@@ -81,15 +88,15 @@ class BigBrother
   end
 
   def server
-    @server ||= (ENV['CONSUL_ADDR'].nil? ? "unknown" : Resolv.getname(ENV['CONSUL_ADDR']))
-      end
+    @server ||= Resolv.getname(ENV['CONSUL_ADDR']) rescue 'unknown'
+  end
 
   def ip_address
-    @ip_address ||= ENV['CONSUL_ADDR'] || Socket.ip_address_list.detect { |intf| intf.ipv4_private? }.ip_address
+    @ip_address ||= ENV['CONSUL_ADDR'] || Socket.ip_address_list.detect { |intf| intf.ipv4_private? }.ip_address rescue 'unknown'
   end
 
   def instance_name
-    @instance_name ||= ENV['HOSTNAME'].blank? ? "#{Socket.gethostname}" : ENV['HOSTNAME']
+    @instance_name ||= ENV['HOSTNAME'].blank? ? "#{Socket.gethostname}" : ENV['HOSTNAME'] rescue 'unknown'
   end
 
   def last_polled_at
@@ -100,14 +107,19 @@ class BigBrother
     @last_reported_data
   end
 
-  def poll(polling_interval_in_seconds)
+  def polling_interval_in_seconds
+    @polling_interval_in_seconds
+  end
+
+  def poll
     return if stopped?
     datadog_tags = Array(tags).map{|tag| tag.join(':')}
     StatsD.gauge(@metric_name, 1, {sample_rate: 1.0, tags: datadog_tags})
+    puts "[Big Brother] Reported application metrics via StatsD. Waiting #{polling_interval_in_seconds} seconds to report again."
     @last_polled = Time.now
     @last_reported_data = {metric: @metric_name, tags: @tags}
     sleep(polling_interval_in_seconds)
-    poll(polling_interval_in_seconds)
+    poll
   end
 
   def stop
@@ -126,16 +138,14 @@ class BigBrother
     end
   end
 
-  def self.start_watching(polling_interval_in_seconds=nil)
-    if polling_interval_in_seconds.nil?
-      polling_interval_in_seconds = (ENV['BIG_BROTHER_WATCH_INTERVAL'].to_i rescue nil) || 5*60 # defaults to five minute poll interval
-    end
+  def self.start_watching
     @instance = BigBrother.new
     Thread.start {
       begin
         @instance.setup_statsd
-        puts "Starting application monitor with tags: #{@instance.tags.inspect}"
-        @instance.poll(polling_interval_in_seconds)
+        puts "[Big Brother] Starting application monitor..."
+        puts "[Big Brother] Application monitor initialized with a polling interval of #{@instance.polling_interval_in_seconds} seconds and the following application tags: #{@instance.tags.inspect}"
+        @instance.poll
       rescue => exception
         puts exception.message
         puts exception.backtrace
