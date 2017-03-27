@@ -9,4 +9,8 @@ Gem::Specification.new do |s|
   s.files       = ['lib/big_brother.rb']
   s.add_runtime_dependency 'statsd-instrument', '~> 2.0.10'
   s.add_development_dependency 'rspec', ['>= 0']
+  s.add_development_dependency 'dogapi', ['>= 0']
+  s.add_development_dependency 'awesome_print', ['>= 0']
+  s.add_development_dependency 'oj', ['>= 0']
+  s.add_development_dependency 'activesupport', ['~> 4.2.3']
 end
