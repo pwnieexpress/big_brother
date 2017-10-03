@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', ['>= 0']
   s.add_development_dependency 'dogapi', ['>= 0']
   s.add_development_dependency 'awesome_print', ['>= 0']
+  s.add_development_dependency 'hirb', ['>= 0']
   s.add_development_dependency 'oj', ['>= 0']
   s.add_development_dependency 'activesupport', ['~> 4.2.3']
+  s.add_development_dependency 'actionview', ['~> 4.2.3']
 end
