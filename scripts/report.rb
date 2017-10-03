@@ -61,7 +61,7 @@ module Dogapi
               :to => to.to_i,
               :query => q
           }
-          ap params
+          # ap params
           request(Net::HTTP::Get, '/api/' + API_VERSION + '/query', params, nil, false)
         rescue Exception => e
           if @silent
@@ -171,7 +171,6 @@ rows_by_app.each { |app_name, app_rows|
     version_rows << app_meta
   }
 }
-puts "\nBig Brother Report for environment '#{environment}':\n\n"
-
+puts "Big Brother Report for environment '#{environment}':\n\n"
 pp version_rows.sort_by { |r| r[:app] }, {fields: [:app, :last_commit, :last_commit_time, :git_branch, :git_tag, :instance_count, :hosts, :host_instance_counts]}
 exit 0
